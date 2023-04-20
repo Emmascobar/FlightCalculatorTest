@@ -9,7 +9,9 @@ import org.slf4j.LoggerFactory;
 import java.io.File;
 import java.io.IOException;
 import java.time.LocalTime;
-import java.util.*;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Scanner;
 
 import static org.example.HaversineFormula.haversine;
 
@@ -30,15 +32,32 @@ public class FlightTests {
         String[] destinations = {"melbourne", "dublin", "vancouver", "barcelona", "paris", "los angeles", "london"};
         Scanner scanner = new Scanner(System.in);
         String departureScanner = scanner.nextLine().toLowerCase();
-//        boolean departureInList = Arrays.asList(destinations).contains(departureScanner);
+        boolean departureInList = Arrays.asList(destinations).contains(departureScanner);
+
+        // Check if departure destination exist in System (JSON file)
+        while (!departureInList) {
+            System.out.println("Departure destination is not in System. Please input one from the given list");;
+            departureScanner = scanner.nextLine().toLowerCase();
+            departureInList = Arrays.asList(destinations).contains(departureScanner);
+        }
 
         System.out.println("Please select arrival destination. For this example you can choose: Melbourne, Dublin, Vancouver, Barcelona, Paris, Los Angeles or London\"");
         String arrivalScanner = scanner.nextLine().toLowerCase();
         boolean arrivalInList = Arrays.asList(destinations).contains(arrivalScanner);
 
+        // Check if arrival destination exist in System (JSON file)
+        while (!arrivalInList) {
+            System.out.println("Arrival destination is not in System. Please input one from the given list");;
+            arrivalScanner = scanner.nextLine().toLowerCase();
+            arrivalInList = Arrays.asList(destinations).contains(arrivalScanner);
+        }
+
+
         //Now found, filter, and define departure and arrival from results:
-        AirportInformation departure = airportInformationList.stream().filter(airportInformation -> airportInformation.getName().toLowerCase().equals(departureScanner)).findFirst().orElse(null);
-        AirportInformation arrival = airportInformationList.stream().filter(airportInformation -> airportInformation.getName().toLowerCase().equals(arrivalScanner)).findFirst().orElse(null);
+        String finalDepartureScanner = departureScanner;
+        AirportInformation departure = airportInformationList.stream().filter(airportInformation -> airportInformation.getName().toLowerCase().equals(finalDepartureScanner)).findFirst().orElse(null);
+        String finalArrivalScanner = arrivalScanner;
+        AirportInformation arrival = airportInformationList.stream().filter(airportInformation -> airportInformation.getName().toLowerCase().equals(finalArrivalScanner)).findFirst().orElse(null);
 
         //Then calculate the distance with Haversine formula :
         double distance = haversine(departure.getLatitude(), departure.getLongitude(), arrival.getLatitude(), arrival.getLongitude());
@@ -50,7 +69,7 @@ public class FlightTests {
         });
 
         // Now the information get like parameter from the client (flightNumber) is used to get a specific flight. In case of this app
-        // destinations can be change when we want, but other options is get the departure and arrival destinations from the same Json file.
+        // destinations can be change when we want, but other option is get the departure and arrival destinations from the same Json file.
         FlightInformation flight = flightInformationList.stream().filter(flightInformation -> flightInformation.getFlightNumber().equals(flightNumber)).findFirst().orElseThrow(null);
         //Now we set the departure and arrival destinations of the flight with the information previously get by the client (ScannerLine).
         flight.setDeparture(departure.getName());
@@ -61,13 +80,12 @@ public class FlightTests {
 
         //Time to apply the rules:
         LocalTime now = LocalTime.now();
-        LocalTime timeCut01 = LocalTime.of(14, 00);
-        LocalTime timeCut02 = LocalTime.of(20, 00);
+        LocalTime timeCut01 = LocalTime.of(14, 0);
+        LocalTime timeCut02 = LocalTime.of(20, 0);
         boolean rule01 = false;
         boolean rule02 = false;
 
-        //RULE 01: The maximum flight range of the airplane is 12.000 km, however, the number of passengers reduces this flight range.
-        // If the flight has more than 250 passengers then it can travel a maximum of 8.000 km */
+        //RULE 01:
         if (flight.getPassengers() > 250 && distance <= 8000 || flight.getPassengers() <= 250 && distance <= 12000) {
             rule01 = true;
             System.out.println("Flight Number " + flight.getFlightNumber() + " accomplish with rule number one: passengers - distance");
@@ -79,7 +97,7 @@ public class FlightTests {
 
         }
 
-        // RULE 2: Flights taking off after 2:00 pm can only travel 9.000 km. And there shall be no take-offs after 8:00 pm */
+        // RULE 2:
         if (flight.getTakeOffTime().isBefore(timeCut01) && distance >= 8000 || flight.getTakeOffTime().isBefore(timeCut02) && distance <= 9000) {
             rule02 = true;
             System.out.println("Flight Number " + flight.getFlightNumber() + " accomplish with rule number two: Take off hour");
