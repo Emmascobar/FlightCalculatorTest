@@ -2,8 +2,7 @@ package org.example;
 
 public class HaversineFormula {
     static double haversine(double lat1, double lon1,
-                            double lat2, double lon2)
-    {
+                            double lat2, double lon2) {
         // distance between latitudes and longitudes
         double dLat = Math.toRadians(lat2 - lat1);
         double dLon = Math.toRadians(lon2 - lon1);

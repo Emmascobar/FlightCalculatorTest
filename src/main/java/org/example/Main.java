@@ -3,8 +3,6 @@ package org.example;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.Scanner;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public class Main {
 
@@ -23,12 +21,12 @@ public class Main {
         boolean flightExist = Arrays.asList(flightNumbers).contains(flightNumber);
 
         while (!flightExist) {
-            System.out.println("Flight number is not in System registry. Please input a flight number from the given list");;
+            System.out.println("Flight number is not in System registry. Please input a flight number from the given list");
             flightNumber = scanner.nextLine().toUpperCase();
             flightExist = Arrays.asList(flightNumbers).contains(flightNumber);
         }
 
-        //If flight exist in System lunch calculator;
+        //If flight exist in System - launch test calculator;
         flightTests.flightTesting(flightNumber);
     }
 }
