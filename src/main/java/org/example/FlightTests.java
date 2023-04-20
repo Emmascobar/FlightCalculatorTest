@@ -49,11 +49,14 @@ public class FlightTests {
         // Check if arrival destination exist in System (JSON file)
         while (!arrivalInList) {
             System.out.println("Arrival destination is not in System. Please input one from the given list");
-            ;
             arrivalScanner = scanner.nextLine().toLowerCase();
             arrivalInList = Arrays.asList(destinations).contains(arrivalScanner);
         }
-
+        while (departureScanner.equals(arrivalScanner)){
+            System.out.println("Arrival destination is same than origin. Please select another one.");
+            arrivalScanner = scanner.nextLine().toLowerCase();
+            arrivalInList = Arrays.asList(destinations).contains(arrivalScanner);
+        }
 
         //Now found, filter, and define departure and arrival from results:
         String finalDepartureScanner = departureScanner;
@@ -81,15 +84,20 @@ public class FlightTests {
         System.out.println("INFO!!! - Chosen flight Nº " + flightNumber + ", with origin in airport of " + flight.getDeparture() + " and arrival in airport of " + flight.getArrival() + ". Total distance between both are: " + Math.round(distance) + " Km." + " The total of passengers of this flight are: " + flight.getPassengers() + " and the take off time is " + flight.getTakeOffTime() + " hs.");
         System.out.println("--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------");
 
-        //Time to apply the rules:
+        // Time to apply the rules:
+        //Variables:
         LocalTime now = LocalTime.now();
         LocalTime timeCut01 = LocalTime.of(14, 0);
         LocalTime timeCut02 = LocalTime.of(20, 0);
+        int passengersLimits = 250;
+        double distanceCut01 = 8000;
+        double distanceCut02 = 9000;
+        double distanceCut03 = 12000;
         boolean rule01 = false;
         boolean rule02 = false;
 
-        //RULE 01:
-        if (flight.getPassengers() > 250 && distance <= 8000 || flight.getPassengers() <= 250 && distance <= 12000) {
+        // RULE 01:
+        if (flight.getPassengers() > passengersLimits && distance <= distanceCut01 || flight.getPassengers() <= passengersLimits && distance <= distanceCut03) {
             rule01 = true;
             System.out.println("Flight Number " + flight.getFlightNumber() + " accomplish with rule number one: passengers - distance");
             log.info("Rule number one: Passengers - Distance are accomplish. Registering in system log.");
@@ -101,7 +109,7 @@ public class FlightTests {
         }
 
         // RULE 2:
-        if (flight.getTakeOffTime().isBefore(timeCut01) && distance >= 8000 || flight.getTakeOffTime().isBefore(timeCut02) && distance <= 9000) {
+        if (flight.getTakeOffTime().isBefore(timeCut01) && distance >= distanceCut01 || flight.getTakeOffTime().isBefore(timeCut02) && distance <= distanceCut02) {
             rule02 = true;
             System.out.println("Flight Number " + flight.getFlightNumber() + " accomplish with rule number two: Take off hour");
             log.info(flight.getFlightNumber() + ": Rule number two: Take off hour are accomplish. Registering in system log.");
@@ -114,7 +122,7 @@ public class FlightTests {
         System.out.println("--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------");
 
         String IsFeasible = "";
-        if (rule01 == true && rule02 == true) {
+        if (rule01 && rule02) {
             IsFeasible = "Flight Number " + flight.getFlightNumber() + " with origin in " + flight.getDeparture() + " and final destination in " + flight.getArrival() + " is feasible to departure. Registering in System log ";
             log.info(IsFeasible + ">>> IS feasible to departure. ");
         } else {
