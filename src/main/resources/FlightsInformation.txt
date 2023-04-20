@@ -1,0 +1,58 @@
+[
+{
+  "id":"01",
+  "flightNumber":"BGA164F",
+  "passengers":"250",
+  "takeOffTime":"15:41",
+  "departure":" ",
+  "arrival":" "
+},
+{
+  "id":"02",
+  "flightNumber":"OAF568S",
+  "passengers":"100",
+  "takeOffTime":"10:20",
+  "departure":" ",
+  "arrival":" "
+},
+{
+  "id":"03",
+  "flightNumber":"FRG458A",
+  "passengers":"350",
+  "takeOffTime":"18:30",
+  "departure":" ",
+  "arrival":" "
+},
+{
+  "id":"04",
+  "flightNumber":"HPO521S",
+  "passengers":"400",
+  "takeOffTime":"20:20",
+  "departure":" ",
+  "arrival":" "
+},
+{
+  "id":"05",
+  "flightNumber":"PAS666D",
+  "passengers":"150",
+  "takeOffTime":"22:30",
+  "departure":" ",
+  "arrival":" "
+},
+{
+  "id":"06",
+  "flightNumber":"GRE952A",
+  "passengers":"380",
+  "takeOffTime":"20:00",
+  "departure":" ",
+  "arrival":" "
+},
+{
+  "id":"07",
+   "flightNumber":"FOS457A",
+   "passengers":"410",
+   "takeOffTime":"10:30",
+   "departure":" ",
+   "arrival":" "
+}
+]

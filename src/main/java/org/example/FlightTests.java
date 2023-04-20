@@ -1,0 +1,105 @@
+package org.example;
+
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.io.File;
+import java.io.IOException;
+import java.time.LocalTime;
+import java.util.*;
+
+import static org.example.HaversineFormula.haversine;
+
+public class FlightTests {
+
+    public void flightTesting(String flightNumber) throws IOException {
+
+        final Logger log = LoggerFactory.getLogger(this.getClass());
+
+        //Mapper Json file with data about airports:
+        ObjectMapper airportsMapper = new ObjectMapper();
+        airportsMapper.registerModule(new JavaTimeModule());
+        List<AirportInformation> airportInformationList = airportsMapper.readValue(new File("C:\\Users\\Emmanuel\\Desktop\\Novular Test\\FlightDistanceLimitationCalculator\\src\\main\\resources\\Airports.txt"), new TypeReference<List<AirportInformation>>() {
+        });
+
+        //First asking about destinations:
+        System.out.println("Please select departure destination. For this example you can choose: Melbourne, Dublin, Vancouver, Barcelona, Paris, Los Angeles or London");
+        String[] destinations = {"melbourne", "dublin", "vancouver", "barcelona", "paris", "los angeles", "london"};
+        Scanner scanner = new Scanner(System.in);
+        String departureScanner = scanner.nextLine().toLowerCase();
+//        boolean departureInList = Arrays.asList(destinations).contains(departureScanner);
+
+        System.out.println("Please select arrival destination. For this example you can choose: Melbourne, Dublin, Vancouver, Barcelona, Paris, Los Angeles or London\"");
+        String arrivalScanner = scanner.nextLine().toLowerCase();
+        boolean arrivalInList = Arrays.asList(destinations).contains(arrivalScanner);
+
+        //Now found, filter, and define departure and arrival from results:
+        AirportInformation departure = airportInformationList.stream().filter(airportInformation -> airportInformation.getName().toLowerCase().equals(departureScanner)).findFirst().orElse(null);
+        AirportInformation arrival = airportInformationList.stream().filter(airportInformation -> airportInformation.getName().toLowerCase().equals(arrivalScanner)).findFirst().orElse(null);
+
+        //Then calculate the distance with Haversine formula :
+        double distance = haversine(departure.getLatitude(), departure.getLongitude(), arrival.getLatitude(), arrival.getLongitude());
+
+        //Mapper Json file with data about flights:
+        ObjectMapper flightMapper = new ObjectMapper();
+        flightMapper.registerModule(new JavaTimeModule());
+        List<FlightInformation> flightInformationList = flightMapper.readValue(new File("C:\\Users\\Emmanuel\\Desktop\\Novular Test\\FlightDistanceLimitationCalculator\\src\\main\\resources\\FlightsInformation.txt "), new TypeReference<List<FlightInformation>>() {
+        });
+
+        // Now the information get like parameter from the client (flightNumber) is used to get a specific flight. In case of this app
+        // destinations can be change when we want, but other options is get the departure and arrival destinations from the same Json file.
+        FlightInformation flight = flightInformationList.stream().filter(flightInformation -> flightInformation.getFlightNumber().equals(flightNumber)).findFirst().orElseThrow(null);
+        //Now we set the departure and arrival destinations of the flight with the information previously get by the client (ScannerLine).
+        flight.setDeparture(departure.getName());
+        flight.setArrival(arrival.getName());
+
+        System.out.println("INFO!!! - Chosen the flight Nº " + flightNumber + ", with origin in airport of " + flight.getDeparture() + " and arrival in airport of " + flight.getArrival() + ". Total distance between both are: " + Math.round(distance) + " Km." + " The total of passengers of this flight are: " + flight.getPassengers() + " and the take off time is " + flight.getTakeOffTime() + " hs.");
+        System.out.println("-----------------------------------------------------------------------------------------");
+
+        //Time to apply the rules:
+        LocalTime now = LocalTime.now();
+        LocalTime timeCut01 = LocalTime.of(14, 00);
+        LocalTime timeCut02 = LocalTime.of(20, 00);
+        boolean rule01 = false;
+        boolean rule02 = false;
+
+        //RULE 01: The maximum flight range of the airplane is 12.000 km, however, the number of passengers reduces this flight range.
+        // If the flight has more than 250 passengers then it can travel a maximum of 8.000 km */
+        if (flight.getPassengers() > 250 && distance <= 8000 || flight.getPassengers() <= 250 && distance <= 12000) {
+            rule01 = true;
+            System.out.println("Flight Number " + flight.getFlightNumber() + " accomplish with rule number one: passengers - distance");
+            log.info("Rule number one: Passengers - Distance are accomplish. Registering in system log.");
+        } else {
+            rule01 = false;
+            System.out.println("Flight Number " + flight.getFlightNumber() + " don't accomplish with rule number one: passengers - distance");
+            log.info("Rule number one: Passengers - Distance don't accomplish. Registering in system log.");
+
+        }
+
+        // RULE 2: Flights taking off after 2:00 pm can only travel 9.000 km. And there shall be no take-offs after 8:00 pm */
+        if (flight.getTakeOffTime().isBefore(timeCut01) && distance >= 8000 || flight.getTakeOffTime().isBefore(timeCut02) && distance <= 9000) {
+            rule02 = true;
+            System.out.println("Flight Number " + flight.getFlightNumber() + " accomplish with rule number two: Take off hour");
+            log.info(flight.getFlightNumber() + ": Rule number two: Passengers - Distance are accomplish. Registering in system log.");
+        } else {
+            rule02 = false;
+            System.out.println("Flight Number " + flight.getFlightNumber() + " don't accomplish with rule number two:Take off hour");
+            log.info(flight.getFlightNumber() + ": Rule number two: Passengers - Distance don't accomplish. Registering in system log.");
+
+        }
+
+        String IsFeasible = "";
+        if (rule01 == true && rule02 == true) {
+            IsFeasible = "Flight Number" + flight.getFlightNumber() + " with origin in " + flight.getDeparture() + " and final destination in " + flight.getArrival() + " is feasible to departure. Registering in System log.";
+            log.info(IsFeasible + "Registering in system log.");
+        } else {
+            IsFeasible = "Flight Number" + flight.getFlightNumber() + " with origin in " + flight.getDeparture() + " and final destination in " + flight.getArrival() + " is NOT feasible to departure. Registering in System log.";
+            log.info(IsFeasible + "is not feasible to departure. Registering in system log.");
+        }
+        System.out.println("-----------------------------------------------------------------------------------------");
+        System.out.println(IsFeasible);
+    }
+}
