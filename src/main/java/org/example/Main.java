@@ -14,7 +14,7 @@ public class Main {
         String[] flightNumbers = {"OAF568S", "BGA164F", "FRG458A", "HPO521S", "PAS666D", "GRE952A", "FOS457A"};
 
         // Start Commands
-        System.out.println("Hello!!! Remember check this calculator test before get the order to departure a specific flight");
+        System.out.println("Hello! Remember... check this calculator test before to give the order to departure a specific flight.");
         System.out.println("Please select a Flight Number. Remember the format (ABC123D) or select one of this examples: OAF568S / BGA164F / FRG458A / HPO521S / PAS666D / GRE952A / FOS457A.");
         Scanner scanner = new Scanner(System.in);
         String flightNumber = scanner.nextLine().toUpperCase();

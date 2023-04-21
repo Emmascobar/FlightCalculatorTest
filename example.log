@@ -43,3 +43,9 @@ INFO main org.example.FlightTests - Flight Number BGA164F with origin in Paris a
 INFO main org.example.FlightTests - Rule number one: Passengers - Distance are accomplish. Registering in system log.
 INFO main org.example.FlightTests - PAS666D: Rule number two: Take off hour - Distance don't accomplish. Registering in system log.
 INFO main org.example.FlightTests - Flight Number PAS666D with origin in Barcelona and final destination in Paris is NOT feasible to departure. Registering in System log >>>> IS NOT feasible to departure. 
+INFO main org.example.FlightTests - Rule number one: Passengers - Distance are accomplish. Registering in system log.
+INFO main org.example.FlightTests - BGA164F: Rule number two: Take off hour are accomplish. Registering in system log.
+INFO main org.example.FlightTests - Flight Number BGA164F with origin in Dublin and final destination in Paris is feasible to departure. Registering in System log >>> IS feasible to departure. 
+INFO main org.example.FlightTests - Rule number one: Passengers - Distance don't accomplish. Registering in system log.
+INFO main org.example.FlightTests - BGA164F: Rule number two: Take off hour - Distance don't accomplish. Registering in system log.
+INFO main org.example.FlightTests - Flight Number BGA164F with origin in Melbourne and final destination in Barcelona is NOT feasible to departure. Registering in System log >>>> IS NOT feasible to departure. 
