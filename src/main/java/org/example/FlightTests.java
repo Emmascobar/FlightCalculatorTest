@@ -37,7 +37,6 @@ public class FlightTests {
         // Check if departure destination exist in System (JSON file)
         while (!departureInList) {
             System.out.println("Departure destination is not in System. Please input one from the given list");
-            ;
             departureScanner = scanner.nextLine().toLowerCase();
             departureInList = Arrays.asList(destinations).contains(departureScanner);
         }
@@ -52,7 +51,7 @@ public class FlightTests {
             arrivalScanner = scanner.nextLine().toLowerCase();
             arrivalInList = Arrays.asList(destinations).contains(arrivalScanner);
         }
-        while (departureScanner.equals(arrivalScanner)){
+        while (departureScanner.equals(arrivalScanner)) {
             System.out.println("Arrival destination is same than origin. Please select another one.");
             arrivalScanner = scanner.nextLine().toLowerCase();
             arrivalInList = Arrays.asList(destinations).contains(arrivalScanner);
@@ -81,7 +80,7 @@ public class FlightTests {
         flight.setArrival(arrival.getName());
 
         System.out.println("--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------");
-        System.out.println("INFO!!! - Chosen flight Nº " + flightNumber + ", with origin in airport of " + flight.getDeparture() + " and arrival in airport of " + flight.getArrival() + ". Total distance between both are: " + Math.round(distance) + " Km." + " The total of passengers of this flight are: " + flight.getPassengers() + " and the take off time is " + flight.getTakeOffTime() + " hs.");
+        System.out.println(" TESTING flight Nº " + flightNumber + ", with origin in airport of " + flight.getDeparture() + " and arrival in airport of " + flight.getArrival() + ". Total distance between both are: " + Math.round(distance) + " Km." + " The total of passengers of this flight are: " + flight.getPassengers() + " passengers and the Take Off Time is " + flight.getTakeOffTime() + " hs.");
         System.out.println("--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------");
 
         // Time to apply the rules:
@@ -99,40 +98,37 @@ public class FlightTests {
         // RULE 01:
         if (flight.getPassengers() > passengersLimits && distance <= distanceCut01 || flight.getPassengers() <= passengersLimits && distance <= distanceCut03) {
             rule01 = true;
-            System.out.println("Flight Number " + flight.getFlightNumber() + " accomplish with rule number one: passengers - distance");
-            log.info("Rule number one: Passengers - Distance are accomplish. Registering in system log.");
+            System.out.println("Flight Number " + flight.getFlightNumber() + " complies with rule number one: passengers - distance");
+            log.info("Rule number one - Passengers - Distance: is complies. Registering in system log.");
         } else {
-            rule01 = false;
-            System.out.println("Flight Number " + flight.getFlightNumber() + " don't accomplish with rule number one: passengers - distance");
-            log.info("Rule number one: Passengers - Distance don't accomplish. Registering in system log.");
+            System.out.println("Flight Number " + flight.getFlightNumber() + " don't complies with rule number one: passengers - distance");
+            log.info("Rule number one - Passengers - Distance: isn't complies. Registering in system log.");
 
         }
 
         // RULE 2:
         if (flight.getTakeOffTime().isBefore(timeCut01) && distance >= distanceCut01 || flight.getTakeOffTime().isBefore(timeCut02) && distance <= distanceCut02) {
             rule02 = true;
-            System.out.println("Flight Number " + flight.getFlightNumber() + " accomplish with rule number two: Take off hour");
-            log.info(flight.getFlightNumber() + ": Rule number two: Take off hour are accomplish. Registering in system log.");
+            System.out.println("Flight Number " + flight.getFlightNumber() + " complies with rule number two: Take off hour");
+            log.info(flight.getFlightNumber() + ": Rule number two - Take off hour: is complies. Registering in system log.");
         } else {
-            rule02 = false;
-            System.out.println("Flight Number " + flight.getFlightNumber() + " don't accomplish with rule number two:Take off hour");
-            log.info(flight.getFlightNumber() + ": Rule number two: Take off hour - Distance don't accomplish. Registering in system log.");
+            System.out.println("Flight Number " + flight.getFlightNumber() + " don't complies with rule number two:Take off hour");
+            log.info(flight.getFlightNumber() + ": Rule number two - Take off hour: isn't complies. Registering in system log.");
 
         }
         System.out.println("--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------");
-
+        // Feasible?
         String IsFeasible = "";
         if (rule01 && rule02) {
-            IsFeasible = "Flight Number " + flight.getFlightNumber() + " with origin in " + flight.getDeparture() + " and final destination in " + flight.getArrival() + " is feasible to departure. Registering in System log ";
+            IsFeasible = "Flight Number " + flight.getFlightNumber() + " with origin in " + flight.getDeparture() + " and final destination in " + flight.getArrival() + " IS feasible to departure. Registering in System log ";
             log.info(IsFeasible + ">>> IS feasible to departure. ");
         } else {
-            IsFeasible = "Flight Number " + flight.getFlightNumber() + " with origin in " + flight.getDeparture() + " and final destination in " + flight.getArrival() + " is NOT feasible to departure. Registering in System log ";
-            log.info(IsFeasible + ">>>> IS NOT feasible to departure. ");
+            IsFeasible = "Flight Number " + flight.getFlightNumber() + " with origin in " + flight.getDeparture() + " and final destination in " + flight.getArrival() + " IS NOT feasible to departure. Registering in System log ";
+            log.info(IsFeasible + ">>> IS NOT feasible to departure. ");
         }
-        System.out.println("--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------");
-
         //Final Result
-        System.out.println(IsFeasible.toUpperCase());
+        System.out.println("--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------");
+        System.out.println(" TEST RESULT: " + IsFeasible.toUpperCase());
         System.out.println("--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------");
 
     }

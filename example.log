@@ -49,3 +49,15 @@ INFO main org.example.FlightTests - Flight Number BGA164F with origin in Dublin 
 INFO main org.example.FlightTests - Rule number one: Passengers - Distance don't accomplish. Registering in system log.
 INFO main org.example.FlightTests - BGA164F: Rule number two: Take off hour - Distance don't accomplish. Registering in system log.
 INFO main org.example.FlightTests - Flight Number BGA164F with origin in Melbourne and final destination in Barcelona is NOT feasible to departure. Registering in System log >>>> IS NOT feasible to departure. 
+INFO main org.example.FlightTests - Rule number one: Passengers - Distance are accomplish. Registering in system log.
+INFO main org.example.FlightTests - OAF568S: Rule number two: Take off hour are accomplish. Registering in system log.
+INFO main org.example.FlightTests - Flight Number OAF568S with origin in Paris and final destination in London IS feasible to departure. Registering in System log >>> IS feasible to departure. 
+INFO main org.example.FlightTests - Rule number one - Passengers - Distance: is complies. Registering in system log.
+INFO main org.example.FlightTests - BGA164F: Rule number two - Take off hour: is complies. Registering in system log.
+INFO main org.example.FlightTests - Flight Number BGA164F with origin in Barcelona and final destination in London IS feasible to departure. Registering in System log >>> IS feasible to departure. 
+INFO main org.example.FlightTests - Rule number one - Passengers - Distance: isn't complies. Registering in system log.
+INFO main org.example.FlightTests - HPO521S: Rule number two - Take off hour: isn't complies. Registering in system log.
+INFO main org.example.FlightTests - Flight Number HPO521S with origin in Melbourne and final destination in Vancouver IS NOT feasible to departure. Registering in System log >>> IS NOT feasible to departure. 
+INFO main org.example.FlightTests - Rule number one - Passengers - Distance: is complies. Registering in system log.
+INFO main org.example.FlightTests - HPO521S: Rule number two - Take off hour: isn't complies. Registering in system log.
+INFO main org.example.FlightTests - Flight Number HPO521S with origin in Paris and final destination in Barcelona IS NOT feasible to departure. Registering in System log >>> IS NOT feasible to departure. 
